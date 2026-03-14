@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>X-TJKT-3.OS · Class Dashboard</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans + Sawarabi Mincho -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,300&family=Sawarabi+Mincho&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       ANIMATED BACKGROUND MESH
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <div class="bg-wrap" aria-hidden="true">
+    <div class="bg-orb orb-sakura"></div>
+    <div class="bg-orb orb-sky"></div>
+    <div class="bg-orb orb-matcha"></div>
+    <div class="bg-orb orb-iris"></div>
+    <div class="orb-aurora"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="bg-noise"></div>
+  </div>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       DARK / LIGHT TOGGLE
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <button class="theme-toggle glass-pill" id="themeToggle" title="Toggle Dark Mode">
+    <i data-lucide="moon" class="toggle-icon" id="toggleIcon"></i>
+  </button>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       TOP NAVIGATION — iOS Dynamic Bar
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <header class="topbar glass-panel" role="banner">
+
+    <!-- LEFT: System Name -->
+    <div class="topbar-left">
+      <i data-lucide="cpu" class="tb-icon"></i>
+      <div class="sys-name-wrap">
+        <span class="sys-name">X<span class="sys-accent">-TJKT-3</span>.OS</span>
+        <span class="sys-cursor">|</span>
+      </div>
+    </div>
+
+    <!-- CENTER: Clock + Date -->
+    <div class="topbar-center">
+      <span class="tb-clock" id="tbClock">00:00:00</span>
+      <span class="tb-date" id="tbDate">読み込み中...</span>
+    </div>
+
+    <!-- RIGHT: Status Indicators -->
+    <div class="topbar-right">
+      <div class="status-chip">
+        <span class="led-pulse"></span>
+        <span class="status-text">Operational</span>
+      </div>
+      <div class="tb-stat">
+        <i data-lucide="wifi" class="tb-icon-sm"></i>
+      </div>
+      <div class="tb-stat">
+        <i data-lucide="battery-full" class="tb-icon-sm"></i>
+        <span class="tb-stat-label">100%</span>
+      </div>
+      <div class="tb-stat uptime-stat">
+        <i data-lucide="activity" class="tb-icon-sm"></i>
+        <span class="tb-stat-label">99.9%</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       MAIN LAYOUT
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <main class="site-main">
+
+    <!-- ── HERO GREETING ── -->
+    <section class="hero-section" aria-label="Welcome">
+      <div class="hero-tag">
+        <span class="jp-tag sawarabi">教室ポータル</span>
+        <span class="hero-sep">·</span>
+        <span>Kelas X TJKT-3 · SMK</span>
+      </div>
+      <h1 class="hero-title">
+        Selamat Datang,<br />
+        <em class="hero-em">Teknik Jaringan<br class="mobile-br"/> Komputer & Telekomunikasi</em>
+      </h1>
+      <p class="hero-sub sawarabi">コンピューターネットワーク工学 · 2025/2026</p>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         DASHBOARD WIDGETS GRID
+    ══════════════════════════════════════════ -->
+    <div class="dashboard-grid reveal-stagger">
+
+      <!-- ── WIDGET 1: JADWAL PELAJARAN ── -->
+      <article class="widget glass-panel widget-schedule" aria-label="Jadwal Pelajaran">
+        <div class="widget-head">
+          <div class="widget-head-left">
+            <div class="widget-icon-wrap">
+              <i data-lucide="calendar-days" class="w-icon"></i>
+            </div>
+            <div>
+              <h2 class="widget-title">Jadwal Pelajaran</h2>
+              <p class="widget-sub sawarabi">時間割 · <span id="schedDayName">Senin</span></p>
+            </div>
+          </div>
+          <div class="widget-head-right">
+            <span class="day-kanji sawarabi" id="schedDayKanji">月曜日</span>
+            <span class="day-badge" id="schedDayBadge">MON</span>
+          </div>
+        </div>
+        <!-- Schedule list rendered by JS -->
+        <div class="sched-list" id="schedList"></div>
+        <button class="view-all-btn ripple-host" id="btnAllSched">
+          <i data-lucide="calendar-range" class="va-icon"></i>
+          <span>Lihat Semua Jadwal</span>
+          <i data-lucide="chevron-right" class="va-arrow"></i>
+        </button>
+      </article>
+
+      <!-- ── WIDGET 2: PIKET HARI INI ── -->
+      <article class="widget glass-panel widget-piket" aria-label="Piket Hari Ini">
+        <div class="widget-head">
+          <div class="widget-head-left">
+            <div class="widget-icon-wrap">
+              <i data-lucide="sparkles" class="w-icon"></i>
+            </div>
+            <div>
+              <h2 class="widget-title">Piket Hari Ini</h2>
+              <p class="widget-sub sawarabi">清掃員 · Seisō-in</p>
+            </div>
+          </div>
+          <span class="day-badge" id="piketDayBadge">MON</span>
+        </div>
+        <!-- Piket cards rendered by JS -->
+        <div class="piket-grid" id="piketGrid"></div>
+        <div class="piket-footer">
+          <i data-lucide="check-circle-2" class="piket-footer-icon"></i>
+          <span>Maintenance Crew · <span class="sawarabi">清掃員</span></span>
+        </div>
+        <button class="view-all-btn ripple-host" id="btnAllPiket">
+          <i data-lucide="users" class="va-icon"></i>
+          <span>Lihat Semua Jadwal Piket</span>
+          <i data-lucide="chevron-right" class="va-arrow"></i>
+        </button>
+      </article>
+
+    </div><!-- /dashboard-grid -->
+
+    <!-- ══════════════════════════════════════════
+         CLASS STRUCTURE — ORGANIC TREE
+    ══════════════════════════════════════════ -->
+    <section class="struct-section reveal" aria-label="Struktur Kelas">
+      <div class="section-eyebrow">
+        <div class="eyebrow-line"></div>
+        <span class="eyebrow-text sawarabi">学級組織</span>
+        <div class="eyebrow-line"></div>
+      </div>
+      <h2 class="section-title">Struktur Organisasi <em>Kelas X TJKT-3</em></h2>
+
+      <div class="tree-wrap glass-panel">
+        <!-- SVG overlay for curved connecting lines -->
+        <svg class="tree-svg" id="treeSvg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+
+        <!-- ── LEVEL 0: Wali Kelas ── -->
+        <div class="tree-level level-0">
+          <div class="tree-node glass-node node-wali"
+               data-role="Wali Kelas"
+               data-jp="担任教師"
+               data-name="Pak Miftakhudin, S.Kom"
+               data-desc="Pembimbing utama kelas X TJKT-3. Bertanggung jawab atas seluruh kegiatan akademik dan non-akademik kelas."
+               data-ig="">
+            <div class="node-ava ava-teacher">
+              <i data-lucide="graduation-cap" class="ava-icon"></i>
+            </div>
+            <p class="node-name">Pak Miftakhudin, S.Kom</p>
+            <p class="node-role">Wali Kelas</p>
+            <p class="node-jp sawarabi">担任教師</p>
+          </div>
+        </div>
+
+        <!-- ── LEVEL 1: Ketua ── -->
+        <div class="tree-level level-1">
+          <div class="tree-node glass-node node-chair"
+               data-role="Ketua Kelas"
+               data-jp="会長 · Kaichō"
+               data-name="Octa"
+               data-desc="Memimpin dan mengkoordinasi seluruh kegiatan kelas. Menjadi penghubung antara siswa dan guru."
+               data-ig="@octa">
+            <div class="node-ava ava-chair">
+              <i data-lucide="crown" class="ava-icon"></i>
+            </div>
+            <p class="node-name">Octa</p>
+            <p class="node-role">Ketua Kelas</p>
+            <p class="node-jp sawarabi">会長 · Kaichō</p>
+          </div>
+        </div>
+
+        <!-- ── LEVEL 2: Wakil / Sekretaris / Bendahara ── -->
+        <div class="tree-level level-2">
+          <div class="tree-node glass-node"
+               data-role="Wakil Ketua"
+               data-jp="副会長 · Fuku Kaichō"
+               data-name="Kesya"
+               data-desc="Membantu ketua kelas dalam menjalankan tugas dan menggantikan ketua saat berhalangan hadir."
+               data-ig="@kesya">
+            <div class="node-ava">
+              <i data-lucide="user-circle-2" class="ava-icon"></i>
+            </div>
+            <p class="node-name">Kesya</p>
+            <p class="node-role">Wakil Ketua</p>
+            <p class="node-jp sawarabi">副会長</p>
+          </div>
+
+          <div class="tree-node glass-node"
+               data-role="Sekretaris"
+               data-jp="書記 · Shoki"
+               data-name="Salma & Bagus"
+               data-desc="Mencatat dan mendokumentasikan seluruh kegiatan kelas, membuat surat, dan menjaga arsip kelas."
+               data-ig="@salma @bagus">
+            <div class="node-ava">
+              <i data-lucide="notebook-pen" class="ava-icon"></i>
+            </div>
+            <p class="node-name">Salma &amp; Bagus</p>
+            <p class="node-role">Sekretaris</p>
+            <p class="node-jp sawarabi">書記 · Shoki</p>
+          </div>
+
+          <div class="tree-node glass-node"
+               data-role="Bendahara"
+               data-jp="会計 · Kaikei"
+               data-name="Niken & Ocha"
+               data-desc="Mengelola keuangan kelas, mencatat pemasukan dan pengeluaran, serta melaporkan kondisi keuangan secara berkala."
+               data-ig="@niken @ocha">
+            <div class="node-ava">
+              <i data-lucide="wallet" class="ava-icon"></i>
+            </div>
+            <p class="node-name">Niken &amp; Ocha</p>
+            <p class="node-role">Bendahara</p>
+            <p class="node-jp sawarabi">会計 · Kaikei</p>
+          </div>
+        </div>
+
+        <!-- ── LEVEL 3: Seksi-Seksi ── -->
+        <div class="tree-level level-3">
+          <div class="tree-node glass-node node-sm"
+               data-role="Sie. Keamanan"
+               data-jp="規律 · Kiritsu"
+               data-name="Zain & Umay"
+               data-desc="Menjaga ketertiban dan keamanan kelas serta memastikan disiplin siswa terpelihara."
+               data-ig="@zain @umay">
+            <div class="node-ava ava-sm">
+              <i data-lucide="shield-check" class="ava-icon-sm"></i>
+            </div>
+            <p class="node-name">Zain &amp; Umay</p>
+            <p class="node-role">Sie. Keamanan</p>
+            <p class="node-jp sawarabi">規律</p>
+          </div>
+
+          <div class="tree-node glass-node node-sm"
+               data-role="Sie. Umum"
+               data-jp="体育 · Taiiku"
+               data-name="Farish & Tsaqib"
+               data-desc="Merencanakan, mengorganisir, dan menggerakkan partisipasi teman sekelas dalam berbagai kegiatan fisik, kebugaran, serta pertandingan olahraga."
+               data-ig="@farish @tsaqib">
+            <div class="node-ava ava-sm">
+              <i data-lucide="users-2" class="ava-icon-sm"></i>
+            </div>
+            <p class="node-name">Farish &amp; Tsaqib</p>
+            <p class="node-role">Sie. Olahraga</p>
+            <p class="node-jp sawarabi">体育</p>
+          </div>
+
+          <div class="tree-node glass-node node-sm"
+               data-role="Sie. Keagamaan"
+               data-jp="宗教 · Shūkyō"
+               data-name="Siva & Reva"
+               data-desc="Mengkoordinasi kegiatan keagamaan kelas, seperti doa bersama, peringatan hari besar agama, dan kajian rutin."
+               data-ig="@siva @reva">
+            <div class="node-ava ava-sm">
+              <i data-lucide="book-open" class="ava-icon-sm"></i>
+            </div>
+            <p class="node-name">Siva &amp; Reva</p>
+            <p class="node-role">Sie. Keagamaan</p>
+            <p class="node-jp sawarabi">宗教</p>
+          </div>
+
+          <div class="tree-node glass-node node-sm"
+               data-role="Sie. Kebersihan"
+               data-jp="清掃 · Seisō"
+               data-name="Vivian & Zaskia"
+               data-desc="Bertanggung jawab menjaga kebersihan kelas setiap hari, mengkoordinasi jadwal piket, dan memastikan lingkungan belajar tetap bersih dan nyaman."
+               data-ig="@vivian @zasqia">
+            <div class="node-ava ava-sm">
+              <i data-lucide="sparkles" class="ava-icon-sm"></i>
+            </div>
+            <p class="node-name">Vivian &amp; Zasqia</p>
+            <p class="node-role">Sie. Kebersihan</p>
+            <p class="node-jp sawarabi">清掃</p>
+          </div>
+        </div>
+
+      </div><!-- /tree-wrap -->
+    </section>
+
+  </main><!-- /site-main -->
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       TERMINAL FOOTER
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <footer class="terminal-section" aria-label="Terminal Console">
+    <div class="terminal-glass">
+      <div class="term-topbar">
+        <div class="term-dots">
+          <span class="tdot red"></span>
+          <span class="tdot yellow"></span>
+          <span class="tdot green"></span>
+        </div>
+        <span class="term-title">
+          <i data-lucide="terminal-square" class="term-icon"></i>
+          X-TJKT-3 · Network Shell
+        </span>
+        <span class="term-version">bash 5.2.0</span>
+      </div>
+      <div class="term-body" id="termBody" aria-live="polite"></div>
+      <div class="term-prompt-row">
+        <span class="tp-user">root@xtjkt3</span><span class="tp-colon">:</span><span class="tp-path">~/lab</span><span class="tp-dollar">$&nbsp;</span><span class="tp-cursor">█</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       MODAL — Node Detail
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal-panel glass-panel" id="modalPanel" role="dialog" aria-modal="true" aria-labelledby="modalName">
+      <button class="modal-close" id="modalClose" aria-label="Close">
+        <i data-lucide="x" style="width:18px;height:18px;"></i>
+      </button>
+      <div class="modal-avatar" id="modalAvatar">
+        <i data-lucide="user-circle-2" style="width:36px;height:36px;stroke:var(--accent)"></i>
+      </div>
+      <p class="modal-jp sawarabi" id="modalJp">—</p>
+      <h3 class="modal-name" id="modalName">—</h3>
+      <p class="modal-role" id="modalRole">—</p>
+      <p class="modal-desc" id="modalDesc">—</p>
+      <div class="modal-footer" id="modalIg"></div>
+    </div>
+  </div>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       EASTER EGG OVERLAY
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <div class="easter-overlay" id="easterOverlay" aria-hidden="true">
+    <div class="easter-panel glass-panel">
+      <p class="easter-emoji">🎌</p>
+      <h2 class="easter-title">よくできました！</h2>
+      <p class="easter-msg">Kamu menemukan Easter Egg!<br />Selamat, Siswa TKJ sejati! 🖥️⚡</p>
+      <p class="easter-sub sawarabi">頑張れ！ · Terus Semangat Belajar</p>
+      <button class="easter-close glass-pill" id="easterClose">閉じる · Tutup</button>
+    </div>
+  </div>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       MOTIVASI — Quote from Famous Figures
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <section class="motivation-section reveal" aria-label="Kata Motivasi">
+    <div class="motivation-inner">
+      <div class="motivation-eyebrow">
+        <div class="motivation-eyebrow-line"></div>
+        <span class="motivation-eyebrow-text sawarabi">やる気 · Kata Motivasi</span>
+        <div class="motivation-eyebrow-line"></div>
+      </div>
+      <div class="motivation-card glass-panel">
+        <span class="motivation-quote-icon">❝</span>
+        <p class="motivation-text" id="motivText">Memuat kutipan...</p>
+        <p class="motivation-author" id="motivAuthor">—</p>
+        <div class="motivation-actions">
+          <button class="motiv-btn motiv-btn-shuffle ripple-host" id="motivShuffle" title="Acak kutipan">
+            <i data-lucide="shuffle" style="width:14px;height:14px;stroke:var(--accent);stroke-width:2.5;"></i>
+            <span>Acak</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       SOCIAL FOOTER
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <footer class="social-footer" aria-label="Social Links">
+    <div class="social-footer-inner glass-panel">
+      <div class="sf-brand">
+        <span class="sf-logo">X<span class="sys-accent">-TJKT-3</span>.OS</span>
+        <span class="sf-tagline sawarabi">コンピューターネットワーク工学 · 2025/2026</span>
+      </div>
+      <div class="sf-links">
+        <a href="https://www.tiktok.com/@xtjkt3skensakdw" target="_blank" rel="noopener" class="sf-link sf-link-tiktok ripple-host" title="TikTok Kelas">
+          <svg class="sf-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z"/>
+          </svg>
+          <span>TikTok Kelas</span>
+        </a>
+        <a href="https://www.instagram.com/xtjkt3skensakdw" target="_blank" rel="noopener" class="sf-link sf-link-ig ripple-host" title="Instagram Kelas">
+          <i data-lucide="instagram" class="sf-icon-lu"></i>
+          <span>Instagram Kelas</span>
+        </a>
+        <a href="https://www.tiktok.com/@yoikagevt" target="_blank" rel="noopener" class="sf-link sf-link-dev ripple-host" title="Pembuat">
+          <i data-lucide="code-2" class="sf-icon-lu"></i>
+          <span>Pembuat</span>
+        </a>
+        <a href="https://wa.me/62816694700?text=Halo%2C%20saya%20ingin%20melaporkan%20bug%20di%20website%20X-TJKT-3.OS%3A%0A" target="_blank" rel="noopener" class="sf-link sf-link-bug ripple-host" title="Laporkan Bug">
+          <i data-lucide="bug" class="sf-icon-lu"></i>
+          <span>Laporkan Bug</span>
+        </a>
+        <a href="https://smkn1kedungwuni.sch.id/" target="_blank" rel="noopener" class="sf-link sf-link-school ripple-host" title="Website Sekolah">
+          <i data-lucide="school" class="sf-icon-lu"></i>
+          <span>Website Sekolah</span>
+        </a>
+      </div>
+      <div class="sf-copy">
+        <span>© 2025/2026 · X TJKT-3 · SMKN 1 Kedungwuni</span>
+        <span class="sawarabi">頑張ってください。</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       MODAL — SEMUA JADWAL PELAJARAN
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <div class="allsched-backdrop" id="allSchedBackdrop" aria-hidden="true">
+    <div class="allsched-panel glass-panel" role="dialog" aria-modal="true" aria-label="Semua Jadwal Pelajaran">
+      <div class="allsched-head">
+        <div class="allsched-title-wrap">
+          <div class="widget-icon-wrap" style="width:36px;height:36px;">
+            <i data-lucide="calendar-days" style="width:18px;height:18px;stroke:var(--accent);stroke-width:2;"></i>
+          </div>
+          <div>
+            <h2 class="allsched-title">Semua Jadwal Pelajaran</h2>
+            <p class="allsched-sub sawarabi">時間割 全体 · Timetable</p>
+          </div>
+        </div>
+        <button class="modal-close" id="allSchedClose" aria-label="Tutup">
+          <i data-lucide="x" style="width:18px;height:18px;"></i>
+        </button>
+      </div>
+      <!-- Day tabs -->
+      <div class="day-tabs" id="schedDayTabs">
+        <button class="day-tab active" data-day="1">Sen</button>
+        <button class="day-tab" data-day="2">Sel</button>
+        <button class="day-tab" data-day="3">Rab</button>
+        <button class="day-tab" data-day="4">Kam</button>
+        <button class="day-tab" data-day="5">Jum</button>
+      </div>
+      <!-- Content area -->
+      <div class="allsched-body" id="allSchedBody"></div>
+    </div>
+  </div>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       MODAL — SEMUA JADWAL PIKET
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <div class="allsched-backdrop" id="allPiketBackdrop" aria-hidden="true">
+    <div class="allsched-panel glass-panel" role="dialog" aria-modal="true" aria-label="Semua Jadwal Piket">
+      <div class="allsched-head">
+        <div class="allsched-title-wrap">
+          <div class="widget-icon-wrap" style="width:36px;height:36px;">
+            <i data-lucide="sparkles" style="width:18px;height:18px;stroke:var(--accent);stroke-width:2;"></i>
+          </div>
+          <div>
+            <h2 class="allsched-title">Semua Jadwal Piket</h2>
+            <p class="allsched-sub sawarabi">清掃員 全体 · Duty Roster</p>
+          </div>
+        </div>
+        <button class="modal-close" id="allPiketClose" aria-label="Tutup">
+          <i data-lucide="x" style="width:18px;height:18px;"></i>
+        </button>
+      </div>
+      <!-- Day tabs -->
+      <div class="day-tabs" id="piketDayTabs">
+        <button class="day-tab active" data-day="1">Sen</button>
+        <button class="day-tab" data-day="2">Sel</button>
+        <button class="day-tab" data-day="3">Rab</button>
+        <button class="day-tab" data-day="4">Kam</button>
+        <button class="day-tab" data-day="5">Jum</button>
+      </div>
+      <!-- Content area -->
+      <div class="allsched-body" id="allPiketBody"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
