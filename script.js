@@ -148,7 +148,7 @@ const TERMINAL_LOGS = [
   { type: 'info', text: 'Scanning network interface wlan0 ...' },
   { type: 'ok',   text: 'IP Detected: 192.168.10.42  (WLAN-TKJ · SSID: SMKN-LAB)' },
   { type: 'ok',   text: 'Connection: 192.168.1.100 gateway  ·  Latency: 4ms' },
-  { type: 'warn', text: 'Resolving DNS: xtjkt3skensakdw.vercel.app ...' },
+  { type: 'warn', text: 'Resolving DNS: xtjkt3skensakdwvlite.vercel.app ...' },
   { type: 'ok',   text: 'DNS resolved  →  104.21.8.72' },
   { type: 'info', text: 'Loading schedule database ...' },
   { type: 'ok',   text: 'Schedule sync complete  ·  Updated: ' + new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) },
